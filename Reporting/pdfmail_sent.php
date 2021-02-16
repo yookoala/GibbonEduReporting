@@ -8,7 +8,7 @@ if (isActionAccessible($guid, $connection2,"/modules/Reporting/pdf.php")==FALSE)
     // proceed
     // include function pages
     
-    $modpath =  "./modules/".$_SESSION[$guid]["module"];
+    $modpath =  "./modules/Reporting";
     
     include $modpath."/function.php";
     

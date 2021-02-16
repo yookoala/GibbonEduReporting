@@ -27,7 +27,7 @@ if (1==2) {
     //include "./pdf_function.php" ;
     include "./function.php";
     include "./pdfmail_send_function.php";
-    include "../../lib/PHPMailer/class.phpmailer.php";
+    include "../../vendor/phpmailer/phpmailer/class.phpmailer.php";
     
     setSessionVariables($guid, $connection2);
 
@@ -85,25 +85,7 @@ if (1==2) {
         }
     } // end rollGroup while loop
 
-    /*
-    $returnPath = $_SESSION[$guid]["absoluteURL"]."/index.php?q=/modules/".$_SESSION[$guid]["module"]."/pdfmail.php";
-    $text .= "<p>&nbsp;</p>";
-    $text .= "<p>";
-        $text .= "<a href=\"".$returnPath."\">Return to previous page</a>";
-    $text .= "</p>";
-    */
-    /*
-    // return to class list page
-    $returnPath = $_SESSION[$guid]["absoluteURL"]."/index.php?q=/modules/".$_SESSION[$guid]["module"]."/pdfmail_sent.php".
-            "&yearGroupID=$setpdf->yearGroupID".
-            "&schoolYearID=$setpdf->schoolYearID".
-            "&rollGroupID=$setpdf->rollGroupID".
-            "&reportID=$setpdf->reportID".
-            "&text=$text";
-    
-    header("location:$returnPath");
-    */
-    $returnPath = $_SESSION[$guid]["absoluteURL"]."/index.php?q=/modules/".$_SESSION[$guid]["module"]."/pdfmail_sent.php";
+    $returnPath = $_SESSION[$guid]["absoluteURL"]."/index.php?q=/modules/Reporting/pdfmail_sent.php";
     echo "<form name='sentForm' method='post' action='$returnPath'>";
         echo "<input type='hidden' name='yearGroupID' value='".$setpdf->yearGroupID."' />";
         echo "<input type='hidden' name='schoolYearID' value='".$setpdf->schoolYearID."' />";
@@ -123,7 +105,7 @@ if (1==2) {
 
 function sendmail($to, $from, $parentName, $report) {
 
-    $mail             = new PHPMailer(); // defaults to using php "mail()"
+    $mail = new PHPMailer(); // defaults to using php "mail()"
     
     $body = "Dear ".$parentName."<br><br>";
     $body .= "Please find school report attached.<br><br>";

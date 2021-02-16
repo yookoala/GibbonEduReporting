@@ -489,6 +489,7 @@ class subrep {
 
         // check how many criteria are required
         $numcrit = $this->criteriaList->rowCount() + 1;
+        //$numcrit = $this->criteriaList->rowCount();
 
         // read report
         $report = readSubReport($this->dbh, $studentID, $this->subjectID, $this->reportID, $this->schoolYearID);
@@ -515,9 +516,7 @@ class subrep {
                     WHERE subjectID = :subjectID
                     AND studentID = :studentID
                     AND reportID = :reportID
-                    AND (gradeID > 0 OR mark > 0)";
-                //print $sql;
-                //print_r($data);
+                    AND (gradeID != '')";
                 $rs = $this->dbh->prepare($sql);
                 $rs->execute($data);
                 $count = $count + $rs->rowCount();

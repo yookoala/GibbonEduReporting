@@ -49,5 +49,5 @@ if (isActionAccessible($guid, $connection2,"/modules/Reporting/admin.php")==FALS
     echo "<div style='clear:both;'></div>";
 
     admin_navbar($guid, $connection2, $title);
-    $_SESSION[$guid]['sidebarExtra'] = freemium($modpath);
+    //$_SESSION[$guid]['sidebarExtra'] = freemium($modpath);
 }

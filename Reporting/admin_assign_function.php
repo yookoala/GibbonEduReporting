@@ -112,6 +112,7 @@ class ass {
         }
         ?>
         <form name='frm_status' id='frm_status' method='post' action=''>
+            <input type='hidden' name='schoolYearID' value='<?php echo $this->schoolYearID ?>' />
             <table class='mini'>
                 <tr>
                     <th style='width:150px;'>Report</th>

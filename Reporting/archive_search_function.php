@@ -94,7 +94,7 @@ class arc {
                         <option></option>
                         <?php
                         while ($row = $studentList->fetch()) {
-                            $name = $row['surname'].', '.$row['firstName'].' ('.$row[preferredName].')';
+                            $name = $row['surname'].', '.$row['firstName'].' ('.$row['preferredName'].')';
                             if ($row['dateEnd'] != '') {
                                 $name .= " - Left ".$row['dateEnd'];
                             }

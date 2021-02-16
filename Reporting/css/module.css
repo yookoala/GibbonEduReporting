@@ -304,7 +304,7 @@ h1, h2, h3 {
 
 .button {
     border: 1px solid #222222;
-    background-color: #444444;
+    background-color: #CCCCCC;
     height: 28px;
     min-width: 55px;
     color: #ffffff;
@@ -331,7 +331,7 @@ h1, h2, h3 {
 #freemium {
     border: 1px solid #cccccc;
     text-align: center;
-    background-color: #ffffff;
+    /*background-color: #ffffff;*/
     /*
     padding:4px;
     font-size: x-small; 

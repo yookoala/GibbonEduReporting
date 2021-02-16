@@ -245,3 +245,31 @@ AND gibbonAction.name = 'Administration'";
 $count++;
 $sql[$count][0]="2.16" ; // version number
 $sql[$count][1]=""; 
+
+$count++;
+$sql[$count][0]="2.17" ; // version number
+$sql[$count][1]=""; 
+
+$count++;
+$sql[$count][0]="2.18" ; // version number
+$sql[$count][1]=""; 
+
+$count++;
+$sql[$count][0]="2.19" ; // version number
+$sql[$count][1]=""; 
+
+$count++;
+$sql[$count][0]="2.20" ; // version number
+$sql[$count][1]=""; 
+
+$count++;
+$sql[$count][0]="2.21" ; // version number
+$sql[$count][1]="ALTER TABLE `arrReportSection` ADD UNIQUE( `reportID`, `sectionOrder`);"; 
+
+$count++;
+$sql[$count][0]="2.22" ; // version number
+$sql[$count][1]=""; 
+
+$count++;
+$sql[$count][0]="2.23" ; // version number
+$sql[$count][1]=""; 

@@ -15,7 +15,7 @@ class startyear {
         
         //$this->previousYear = $this->get_schoolYearPrevious($this->dbh);
         $this->copyToYear = isset($_POST['copyToYear']) ? $_POST['copyToYear'] : $_SESSION[$guid]['gibbonSchoolYearID'];
-        $this->copyFromYear = isset($_POST['copyFromYear']) ? $_POST['$copyFromYear'] : $_SESSION[$guid]['gibbonSchoolYearID'];
+        $this->copyFromYear = isset($_POST['copyFromYear']) ? $_POST['copyFromYear'] : $_SESSION[$guid]['gibbonSchoolYearID'];
         $this->schoolYearID = getSchoolYearID($this->dbh, $schoolYearName, $currentYear);
         if (isset($_POST['copyreportsubmit'])) {
             $this->copyData();
@@ -121,32 +121,6 @@ class startyear {
         }
 
         if ($ok) {
-            // status
-            try {
-                $sql = "INSERT IGNORE INTO arrStatus
-                    (arrStatus.reportID, arrStatus.roleID, arrStatus.reportStatus)
-                    SELECT 
-                    newReport.reportID,
-                    arrStatus.roleID,
-                    false
-                    FROM arrReport AS newReport
-                    INNER JOIN arrReport AS oldReport
-                    ON oldReport.reportName = newReport.reportName
-                    INNER JOIN arrStatus
-                    ON arrStatus.reportID = oldReport.reportID
-                    WHERE newReport.schoolYearID = :copyToYear
-                    AND oldReport.schoolYearID = :copyFromYear";
-                $rs = $this->dbh->prepare($sql);
-                $result = $rs->execute($data);
-                if (!$result) {
-                    $ok = $result;
-                }
-            } catch (Exception $ex) {
-                die($ex);
-            }
-        }
-
-        if ($ok) {
             try {
                 // report sections
                 $sql = "INSERT IGNORE INTO arrReportSection
@@ -206,13 +180,12 @@ class startyear {
                 $sql = "INSERT IGNORE INTO arrCriteria
                     (
                         subjectID,
-                            schoolYearID,
-                            yearGroupID,
-                            criteriaName,
-                            criteriaType,
-                            gradeScaleID,
-                            criteriaOrder,
-                            arrCriteriacol
+                        schoolYearID,
+                        yearGroupID,
+                        criteriaName,
+                        criteriaType,
+                        gradeScaleID,
+                        criteriaOrder
                     )
                     SELECT 
                     newCourse.gibbonCourseID,
@@ -221,8 +194,7 @@ class startyear {
                     arrCriteria.criteriaName,
                     arrCriteria.criteriaType,
                     arrCriteria.gradeScaleID,
-                    arrCriteria.criteriaOrder,
-                    arrCriteria.arrCriteriacol
+                    arrCriteria.criteriaOrder
                     FROM gibbonCourse AS newCourse
                     INNER JOIN gibbonCourse AS oldCourse
                     ON oldCourse.name = newCourse.name
@@ -237,6 +209,123 @@ class startyear {
                 }
             } catch (Exception $ex) {
                 die($ex);
+            }
+        }
+        
+        if ($ok) {
+            // copy assign
+            try {
+                $sql = "INSERT IGNORE INTO arrSubjectOrder
+                (
+                    arrSubjectOrder.subjectID,
+                    arrSubjectOrder.schoolYearID,
+                    arrSubjectOrder.yearGroupID,
+                    arrSubjectOrder.subjectOrder
+                )
+                SELECT 
+                newCourse.gibbonCourseID,
+                :copyToYear,
+                arrSubjectOrder.yearGroupID,
+                arrSubjectOrder.subjectOrder
+                FROM arrSubjectOrder
+                INNER JOIN gibbonCourse AS oldCourse
+                ON oldCourse.gibbonCourseID = arrSubjectOrder.subjectID
+                INNER JOIN gibbonCourse AS newCourse
+                ON newCourse.name = oldCourse.name
+                WHERE arrSubjectOrder.schoolYearID = :copyFromYear
+                AND newCourse.gibbonSchoolYearID = :copyToYear";
+                $rs = $this->dbh->prepare($sql);
+                $result = $rs->execute($data);
+                if (!$result) {
+                    $ok = $result;
+                }
+            } catch (Exception $ex) {
+                die($ex);
+            }
+        }
+        
+        if ($ok) {
+            try {
+            $sql = "SELECT arrReportAssign.reportAssignID,
+                arrReportAssign.schoolYearID,
+                arrReportAssign.yearGroupID,
+                arrReportAssign.reportID,
+                arrReportAssign.assignStatus,
+                newReport.reportID
+                FROM arrReportAssign
+                INNER JOIN arrReport AS oldReport
+                ON oldReport.reportID = arrReportAssign.reportID
+                INNER JOIN arrReport AS newReport
+                ON newReport.reportName = oldReport.reportName
+                WHERE arrReportAssign.schoolYearID = :copyFromYear
+                AND newReport.schoolYearID = :copyToYear";
+                $rs = $this->dbh->prepare($sql);
+                $result = $rs->execute($data);
+                if (!$result) {
+                    $ok = $result;
+                }
+            } catch (Exception $ex) {
+                die($ex);
+            }
+        }
+        
+        if ($ok) {
+            try {
+                $sql = "INSERT IGNORE INTO arrReportAssign
+                    (
+                        arrReportAssign.schoolYearID,
+                        arrReportAssign.yearGroupID,
+                        arrReportAssign.reportID,
+                        arrReportAssign.assignStatus
+                    )
+                    SELECT 
+                    :copyToYear,
+                    arrReportAssign.yearGroupID,
+                    newReport.reportID,
+                    arrReportAssign.assignStatus
+                    FROM arrReportAssign
+                    INNER JOIN arrReport AS oldReport
+                    ON oldReport.reportID = arrReportAssign.reportID
+                    INNER JOIN arrReport AS newReport
+                    ON newReport.reportName = oldReport.reportName
+                    WHERE arrReportAssign.schoolYearID = :copyFromYear
+                    AND newReport.schoolYearID = :copyToYear";
+                $rs = $this->dbh->prepare($sql);
+                $result = $rs->execute($data);
+                if (!$result) {
+                    $ok = $result;
+                }
+            } catch (Exception $ex) {
+                die($ex);
+            }
+            
+            if ($ok) {
+                try {
+                    $sql = "INSERT IGNORE INTO arrStatus
+                        (
+                            reportID,
+                            roleID,
+                            reportStatus
+                        )
+                        SELECT 
+                        newReport.reportID,
+                        arrStatus.roleID,
+                        arrStatus.reportStatus
+                        FROM arrStatus
+                        INNER JOIN arrReport AS oldReport
+                        ON oldReport.reportID = arrStatus.reportID
+                        INNER JOIN arrReport AS newReport
+                        ON newReport.reportName = oldReport.reportName
+                        WHERE oldReport.schoolYearID = :copyFromYear
+                        AND newReport.schoolYearID = :copyToYear";
+                    $rs = $this->dbh->prepare($sql);
+                    $result = $rs->execute($data);
+                    if (!$result) {
+                        $ok = $result;
+                    }
+                } catch (Exception $ex) {
+                    die($ex);
+                }
             }
         }
         return $ok;

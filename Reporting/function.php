@@ -773,7 +773,7 @@ function readStudentClassList($dbh, $studentID, $schoolYearID) {
             gibbonCourse.gibbonCourseID AS subjectID, 
             gibbonCourse.name AS subjectName,
             teacher.gibbonPersonID,
-            GROUP_CONCAT(CONCAT(gibbonPerson.surname, '.', LEFT(gibbonPerson.firstName,1)) SEPARATOR ';  ') AS teacherName
+            CONCAT(gibbonPerson.surname, '.', LEFT(gibbonPerson.firstName,1)) AS teacherName
 
             FROM gibbonCourseClassPerson 
             INNER JOIN gibbonCourseClass 

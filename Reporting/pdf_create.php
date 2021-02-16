@@ -29,7 +29,8 @@ if (1==2) {
     include "./function.php";
 
     $root = "../..";
-    include $root."/lib/tcpdf/tcpdf.php";
+    //include $root."/lib/tcpdf/tcpdf.php";
+    include $root."/vendor/tecnickcom/tcpdf/tcpdf.php";
     include "./pdf_create_function.php";
     
     setSessionVariables($guid, $connection2);
@@ -173,11 +174,10 @@ if (1==2) {
 
 
     // return to class list page
-    $returnPath = $_SESSION[$guid]["absoluteURL"]."/index.php?q=/modules/".$_SESSION[$guid]["module"]."/pdf.php".
+    $returnPath = $_SESSION[$guid]["absoluteURL"]."/index.php?q=/modules/Reporting/pdf.php".
             "&yearGroupID=$setpdf->yearGroupID".
             "&schoolYearID=$setpdf->schoolYearID".
             "&rollGroupID=$setpdf->rollGroupID".
             "&reportID=$setpdf->reportID";
-
     header("location:$returnPath");
 }

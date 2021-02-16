@@ -195,6 +195,7 @@ class acc {
         }
         ?>
         <form name="frm_access" id="frm_access" method="post" action="">
+            <input type='hidden' name='schoolYearID' value='<?php echo $this->schoolYearID ?>' />
             <table class='mini'>
                 <tr>
                     <th style='width:100px;'>Report</th>

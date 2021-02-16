@@ -1,4 +1,26 @@
 Gibbon Generic ARR
+v2.23
+fixed error on Gibbon v18 when creating folder to save reports
+
+v2.22
+changed subject page to allow for grades where the gradeID is text rather than numbers
+
+v2.21
+prevent repeated sections from being created if repeated start of year
+
+v2.20
+fixed issues with start of year
+
+v2.19
+start of year check
+
+v2.18
+set subject order when creating PDF
+
+v2.17
+bug fixes - pdf creation, proof reading, mailing
+change to Gibbon v17
+
 v2.16
 takes term from gibbon rather than just number1-3
 

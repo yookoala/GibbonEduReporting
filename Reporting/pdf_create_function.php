@@ -164,21 +164,7 @@ class setpdf {
                 if ($ok) {
                     $file_name = basename($destination);
                     header("Content-Type: application/zip");
-
-
-                    
-                    //header("Content-Disposition: attachment; filename='$file_name'");
-                    $browser = get_browser_name($_SERVER['HTTP_USER_AGENT']);
-                    switch ($browser) {
-                        case "Firefox":
-                        case "Safari":
-                            header("Content-Disposition: attachment; filename=$file_name");
-                            break;
-                        
-                        default:
-                            header("Content-Disposition: attachment; filename='$file_name'");
-                            break;
-                    }
+                    header("Content-Disposition: attachment; filename=$file_name");
                     header("Content-Length: " . filesize($destination));
                     header('HTTP/1.0 200 OK', true, 200);
 
@@ -284,19 +270,19 @@ class setpdf {
         if (!is_dir($path)) {
             mkdir($path);
         }
-        makeIndex($path);
+        //makeIndex($path);
 
         $path = $path.'/reporting';
         if (!is_dir($path)) {
             mkdir($path);
         }
-        makeIndex($path);
+        //makeIndex($path);
 
         $path = $path.'/'.$this->schoolYearName;
         if (!is_dir($path)) {
             mkdir($path);
         }
-        makeIndex($path);
+        //makeIndex($path);
     }
 
     function checkLanguage($text) {
@@ -312,8 +298,8 @@ class setpdf {
         $index = 'index.html';
         $pathIndex = $path.'/'.$index;
         if (!file_exists($pathIndex)) {
-            echo $pathIndex;
-            echo "<br>";
+            //echo $pathIndex;
+            //echo "<br>";
             $handle = fopen($pathIndex, 'w') or die('Cannot open file:  '.$pathIndex); //implicitly creates file
             fclose($handle);
         }
@@ -539,6 +525,7 @@ class setpdf {
                 $html .= '<div>&nbsp;</div>';
 
                 $cp =  $pdf->getPage(); // current page number
+                $pdf->SetFont('stsongstdlight', '', 8);
                 $pdf->startTransaction();
                 $pdf->writeHTML($html, true, false, true, false, '');
                 if ($pdf->getPage() != $cp) {
@@ -565,6 +552,8 @@ class setpdf {
         $numcol = 0;
         $colhead = array();
         foreach ($sublist AS $row) {
+            print_r($row);
+            print "<br>";
             $subjectID = $row['subjectID'];
             $criteriaList = readCriteriaGrade($this->dbh, $this->studentID, $subjectID, $this->reportID);
             if (count($criteriaList) > $numcol && count($colhead) == 0) {
@@ -573,6 +562,7 @@ class setpdf {
                 }
             }
         }
+        die();
         if (count($colhead) > 0) {
             $gradeWidth = (50 / count($colhead));
         } else {
@@ -929,32 +919,32 @@ function readStudentClassListNoRepeat($dbh, $studentID, $schoolYearID) {
             gibbonCourse.gibbonCourseID AS subjectID, 
             gibbonCourse.name AS subjectName,
             teacher.gibbonPersonID,
-            GROUP_CONCAT(CONCAT(gibbonPerson.surname, '.', LEFT(gibbonPerson.firstName,1)) SEPARATOR ';  ') AS teacherName
-
+            CONCAT(gibbonPerson.surname, '.', LEFT(gibbonPerson.firstName,1)) AS teacherName
             FROM gibbonCourseClassPerson 
             INNER JOIN gibbonCourseClass 
             ON gibbonCourseClass.gibbonCourseClassID = gibbonCourseClassPerson.gibbonCourseClassID INNER JOIN gibbonCourse 
             ON gibbonCourse.gibbonCourseID = gibbonCourseClass.gibbonCourseID 
             INNER JOIN gibbonCourseClassPerson AS teacher 
             ON teacher.gibbonCourseClassID = gibbonCourseClass.gibbonCourseClassID 
-
+            INNER JOIN arrSubjectOrder
+            ON arrSubjectOrder.subjectID = gibbonCourse.gibbonCourseID
             LEFT JOIN gibbonPerson
             ON gibbonPerson.gibbonPersonID = teacher.gibbonPersonID
             WHERE gibbonCourseClassPerson.gibbonPersonID = :studentID
             AND gibbonCourse.gibbonSchoolYearID = :schoolYearID
             AND gibbonCourseClass.reportable = 'Y'
             AND teacher.role = 'Teacher'
-
             GROUP BY gibbonCourse.gibbonCourseID
-            ORDER BY gibbonCourse.name";
+            ORDER BY arrSubjectOrder.subjectOrder";
         //print $sql;
         //print_r($data);
         $rs = $dbh->prepare($sql);
         $rs->execute($data);
-            } catch (Exception $ex) {
-                die($ex);
-            }        
-    
+    } catch (Exception $ex) {
+        die($ex);
+    }        
+    return $rs;
+    /*
     // there maybe multiple teachers so reduce this to one row per class
     $classList = array();
     $rowdata = array();
@@ -982,6 +972,8 @@ function readStudentClassListNoRepeat($dbh, $studentID, $schoolYearID) {
     $rowdata['teacherName'] = $teacherName;
     $classList[] = $rowdata;
     return $classList;
+     * 
+     */
 }
 ////////////////////////////////////////////////////////////////////////////////
 
