@@ -1,4 +1,4 @@
-// gibbon20
+// gibbon22
 function checkAll(className, status) {
     // check all check boxes on page
     $("."+className).prop("checked", status);
@@ -249,8 +249,6 @@ function actionButtons(reportID) {
     $('.sectionEdit').unbind('click');
     $('.sectionDelete').unbind('click');
     $('#form_save_btn').unbind('click');
-        
-    
     $('.sectionEdit').click(function() {
         notSaved('status');
         var sectionID = $(this).attr("data-id");
@@ -317,7 +315,7 @@ function actionButtons(reportID) {
                             }
                             fr.readAsDataURL(file);
                         });
-
+                        /*
                         editor.addButton( 'imageupload', {
                             text:"IMAGE",
                             icon: false,
@@ -325,6 +323,7 @@ function actionButtons(reportID) {
                                 inp.trigger('click');
                             }
                         });
+                        */
                         
                         editor.on('init', function() {
                             console.log('x');
@@ -334,6 +333,7 @@ function actionButtons(reportID) {
                 });
                 
                 $('#form_save_btn').click(function() {
+
                     var sectionContent = tinymce.get('sectionContent').getContent();
                     $.ajax({
                         url: modpath + "/admin_design_ajax.php",
@@ -360,6 +360,7 @@ function actionButtons(reportID) {
                 });
 
                 $('#form_cancel_btn').click(function() {
+                    alert(7);
                     $('#sectionEdit').css({'display': 'none'});
                     tinymce.remove();
                     toggleButtons(false);

@@ -10,7 +10,6 @@ ini_set('error_log', 'logfile.txt');
 function chooseReport($dbh, $classID, $reportID, $rollGroupID, $schoolYearID, $teacherID, $yearGroupID) {
     $repList = readReportList($dbh, $schoolYearID, $yearGroupID);
     $repList->execute();
-    
     ob_start();
     ?>
     <div style = "padding:2px;">
@@ -60,10 +59,10 @@ function chooseRollGroup($dbh, $rollGroupID, $schoolYearID, $yearGroupID) {
                 'schoolYearID' => $schoolYearID,
                 'yearGroupID' => $yearGroupID
         );
-        $sql = "SELECT DISTINCT gibbonStudentEnrolment.gibbonRollGroupID, gibbonRollGroup.nameShort
-            FROM gibbonRollGroup
+        $sql = "SELECT DISTINCT gibbonStudentEnrolment.gibbonFormGroupID, gibbonFormGroup.nameShort
+            FROM gibbonFormGroup
             INNER JOIN gibbonStudentEnrolment
-            ON gibbonRollGroup.gibbonRollGroupID = gibbonStudentEnrolment.gibbonRollGroupID
+            ON gibbonFormGroup.gibbonFormGroupID = gibbonStudentEnrolment.gibbonFormGroupID
             WHERE gibbonYearGroupID = :yearGroupID
             AND gibbonStudentEnrolment.gibbonSchoolYearID = :schoolYearID
             ORDER BY nameShort";
@@ -88,10 +87,10 @@ function chooseRollGroup($dbh, $rollGroupID, $schoolYearID, $yearGroupID) {
                     <?php
                     while ($row = $rs->fetch()) {
                         $selected = '';
-                        if ($rollGroupID == $row['gibbonRollGroupID']) {
+                        if ($rollGroupID == $row['gibbonFormGroupID']) {
                             $selected = 'selected';
                         }
-                        echo "<option value='".$row['gibbonRollGroupID']."' $selected>";
+                        echo "<option value='".$row['gibbonFormGroupID']."' $selected>";
                             echo $row['nameShort'];
                         echo "</option>";
                     }
@@ -120,18 +119,17 @@ function chooseSchoolYear($dbh, $studentID, $reportID, $schoolYearID) {
                 <input type = "hidden" name = "reportID" value = "" />
                 <input type = "hidden" name = "studentID" value = "" />
                 <input type = "hidden" name = "yearGroupID" value = "" />
-                <select name = "schoolYearID" onchange = "this.form.submit();" style = 'width:95%;'>
-                    <option></option>
-                    <?php
+                <?php 
+                echo "<select name='schoolYearID' onchange='this.form.submit()' style='width:95%'>";
                     $schoolYearList->execute();
-                    while ($row_schoolYearList = $schoolYearList->fetch()) {
-                        $selected = ($schoolYearID == $row_schoolYearList['gibbonSchoolYearID']) ? "selected" : "";
-                        echo "<option value = '".$row_schoolYearList['gibbonSchoolYearID']."' $selected>";    
-                            echo $row_schoolYearList['name'];
-                         echo "</option>";
-                    } 
-                    ?>
-                </select>
+                    while ($row = $schoolYearList->fetch()) {
+                        $selected = ($schoolYearID == $row['gibbonSchoolYearID']) ? "selected" : "";
+                        echo "<option value = '".$row['gibbonSchoolYearID']."' $selected>";    
+                            echo $row["name"];
+                        echo "</option>";
+                    }
+                echo "</select>";
+                ?>
             </form>
         </div>
         <div style = "clear:both;"></div>
@@ -689,7 +687,7 @@ function readRollGroupList($dbh, $rollGroupID, $showLeft) {
             FROM gibbonStudentEnrolment
             INNER JOIN gibbonPerson
             ON gibbonStudentEnrolment.gibbonPersonID = gibbonPerson.gibbonPersonID
-            WHERE gibbonRollGroupID = :rollGroupID 
+            WHERE gibbonFormGroupID = :rollGroupID 
             AND (dateStart IS NULL OR dateStart<='" . date("Y-m-d") . "') AND (dateEnd IS NULL  OR dateEnd>='" . date("Y-m-d") . "')";
         if ($showLeft == 0) {
             $sql .= "AND status = 'Full' ";

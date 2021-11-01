@@ -222,10 +222,10 @@ class setpdf {
                 'rollGroupID' => $this->rollGroupID
             );
             $sql = "SELECT name, CONCAT(firstName, ' ', surname) AS teacherName
-                FROM gibbonRollGroup
+                FROM gibbonFormGroup
                 INNER JOIN gibbonPerson
-                ON gibbonRollGroup.gibbonPersonIDTutor = gibbonPerson.gibbonPersonID
-                WHERE gibbonRollGroupID = :rollGroupID";
+                ON gibbonFormGroup.gibbonPersonIDTutor = gibbonPerson.gibbonPersonID
+                WHERE gibbonFormGroupID = :rollGroupID";
             //print $sql;
             //print_r($data);
             $rs = $this->connection2->prepare($sql);

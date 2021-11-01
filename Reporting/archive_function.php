@@ -98,10 +98,10 @@ class arc {
                     'schoolYearID' => $this->schoolYearID,
                     'yearGroupID' => $this->yearGroupID
             );
-            $sql = "SELECT DISTINCT gibbonStudentEnrolment.gibbonRollGroupID, gibbonRollGroup.nameShort
-                FROM gibbonRollGroup
+            $sql = "SELECT DISTINCT gibbonStudentEnrolment.gibbonFormGroupID, gibbonFormGroup.nameShort
+                FROM gibbonFormGroup
                 INNER JOIN gibbonStudentEnrolment
-                ON gibbonRollGroup.gibbonRollGroupID = gibbonStudentEnrolment.gibbonRollGroupID
+                ON gibbonFormGroup.gibbonFormGroupID = gibbonStudentEnrolment.gibbonFormGroupID
                 WHERE gibbonYearGroupID = :yearGroupID
                 AND gibbonStudentEnrolment.gibbonSchoolYearID = :schoolYearID
                 ORDER BY nameShort";
@@ -126,8 +126,8 @@ class arc {
                         <?php
                         while ($row = $rs->fetch()) {
                             ?>
-                            <option value="<?php echo $row['gibbonRollGroupID'] ?>"
-                                    <?php if ($this->rollGroupID == $row['gibbonRollGroupID'])
+                            <option value="<?php echo $row['gibbonFormGroupID'] ?>"
+                                    <?php if ($this->rollGroupID == $row['gibbonFormGroupID'])
                                         echo "selected='selected'" ?>>
                                 <?php echo $row['nameShort'] ?>
                             </option>

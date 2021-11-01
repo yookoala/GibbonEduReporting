@@ -61,7 +61,7 @@ function readReport($connection2, $schoolYearID) {
             FROM arrReport
             LEFT JOIN gibbonScale
             ON gibbonScale.gibbonScaleID = arrReport.gradeScale
-            INNER JOIN gibbonSchoolYearTerm
+            LEFT JOIN gibbonSchoolYearTerm
             ON gibbonSchoolYearTerm.gibbonSchoolYearTermID = arrReport.reportNum
             WHERE schoolYearID = :schoolYearID
             ORDER BY reportNum, reportName";

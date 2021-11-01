@@ -40,7 +40,7 @@ class par {
             );
             $sql = "SELECT gibbonPerson.gibbonPersonID,
                 CONCAT(gibbonPerson.surname, gibbonPerson.preferredName) AS studentName,
-                gibbonRollGroup.name AS rollGroupName,
+                gibbonFormGroup.name AS rollGroupName,
                 archive.archiveName,
                 archive.reportName
                 FROM gibbonFamilyChild
@@ -50,8 +50,8 @@ class par {
                 ON gibbonPerson.gibbonPersonID = gibbonFamilyChild.gibbonPersonID
                 INNER JOIN gibbonStudentEnrolment
                 ON gibbonStudentEnrolment.gibbonPersonID = gibbonPerson.gibbonPersonID
-                INNER JOIN gibbonRollGroup
-                ON gibbonRollGroup.gibbonRollGroupID = gibbonStudentEnrolment.gibbonRollGroupID
+                INNER JOIN gibbonFormGroup
+                ON gibbonFormGroup.gibbonFormGroupID = gibbonStudentEnrolment.gibbonFormGroupID
                 LEFT JOIN 
                 (
                     SELECT arrArchive.studentID, 

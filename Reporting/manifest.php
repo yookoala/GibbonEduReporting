@@ -23,7 +23,7 @@ $description="A gibbon module to allow teachers to write reports, and for studen
 $entryURL="index.php" ;
 $type="Additional" ;
 $category="Assess" ;
-$version="2.23" ;
+$version="2.25" ;
 $author="Andy Statham" ;
 $url="http://rapid36.com" ;
 

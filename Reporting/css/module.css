@@ -7,7 +7,7 @@ div {
 
 button {
     background-color: black;
-    color: white;
+    color: white !important;
     font-size: large;
     padding: 4px;
 }
@@ -179,8 +179,9 @@ div.standard {
 
 select {
 	font-size: x-small;
-	height: 18px;
+	/* height: 18px; */
 	float:none;
+    
 }
 
 input[type="text"], input[type="password"], input[type="file"] {
@@ -303,6 +304,7 @@ h1, h2, h3 {
 }
 
 .button {
+    /*
     border: 1px solid #222222;
     background-color: #CCCCCC;
     height: 28px;
@@ -311,6 +313,7 @@ h1, h2, h3 {
     font-weight: bold;
     margin: 2px ;
     font-size: 13px ;
+    */
 }
 
 .button:hover {

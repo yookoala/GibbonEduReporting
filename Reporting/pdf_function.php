@@ -84,7 +84,7 @@ class setpdf {
                 ON gibbonCourseClassPerson.gibbonCourseClassID = gibbonCourseClass.gibbonCourseClassID
                 INNER JOIN gibbonStudentEnrolment
                 ON gibbonStudentEnrolment.gibbonPersonID = gibbonCourseClassPerson.gibbonPersonID
-                WHERE gibbonStudentEnrolment.gibbonRollGroupID = :rollGroupID
+                WHERE gibbonStudentEnrolment.gibbonFormGroupID = :rollGroupID
                 AND gibbonCourse.gibbonSchoolYearID = :schoolYearID
                 AND gibbonCourseClass.reportable = 'Y'
                 AND gibbonCourseClassPerson.reportable = 'Y'
@@ -121,7 +121,7 @@ class setpdf {
                 WHERE arrArchive.reportID = :reportID) AS archive
                 ON gibbonStudentEnrolment.gibbonPersonID = archive.studentID
 
-                WHERE gibbonRollGroupID = :rollGroupID 
+                WHERE gibbonFormGroupID = :rollGroupID 
                 AND (dateStart IS NULL OR dateStart<='" . date("Y-m-d") . "') AND (dateEnd IS NULL  OR dateEnd>='" . date("Y-m-d") . "')";
 
             if ($this->showLeft == 0) {

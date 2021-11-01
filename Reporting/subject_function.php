@@ -189,14 +189,14 @@ class subrep {
                 ":classID"=>$this->classID,
                 ":schoolYearID"=>$this->schoolYearID);
             $sql = "SELECT gibbonCourseClassPerson.gibbonPersonID, surname,
-                    preferredName, gibbonRollGroup.nameShort
+                    preferredName, gibbonFormGroup.nameShort
                     FROM gibbonCourseClassPerson
                     INNER JOIN gibbonPerson
                     ON gibbonCourseClassPerson.gibbonPersonID = gibbonPerson.gibbonPersonID
                     INNER JOIN gibbonStudentEnrolment
                     ON gibbonPerson.gibbonPersonID = gibbonStudentEnrolment.gibbonPersonID
-                    INNER JOIN gibbonRollGroup
-                    ON gibbonStudentEnrolment.gibbonRollGroupID = gibbonRollGroup.gibbonRollGroupID
+                    INNER JOIN gibbonFormGroup
+                    ON gibbonStudentEnrolment.gibbonFormGroupID = gibbonFormGroup.gibbonFormGroupID
                     WHERE gibbonCourseClassID = :classID
                     AND gibbonCourseClassPerson.role LIKE '%Student%'
                     AND gibbonStudentEnrolment.gibbonSchoolYearID = :schoolYearID

@@ -1,4 +1,8 @@
 Gibbon Generic ARR
+v2.24
+fixes for gibbon v22
+bug fix for admin criteria
+
 v2.23
 fixed error on Gibbon v18 when creating folder to save reports
 

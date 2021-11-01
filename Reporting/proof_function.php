@@ -256,10 +256,10 @@ class proof {
                     'schoolYearID' => $this->schoolYearID,
                     'yearGroupID' => $this->yearGroupID
             );
-            $sql = "SELECT DISTINCT gibbonStudentEnrolment.gibbonRollGroupID, gibbonRollGroup.nameShort
-                FROM gibbonRollGroup
+            $sql = "SELECT DISTINCT gibbonStudentEnrolment.gibbonFormGroupID, gibbonFormGroup.nameShort
+                FROM gibbonFormGroup
                 INNER JOIN gibbonStudentEnrolment
-                ON gibbonRollGroup.gibbonRollGroupID = gibbonStudentEnrolment.gibbonRollGroupID
+                ON gibbonFormGroup.gibbonFormGroupID = gibbonStudentEnrolment.gibbonFormGroupID
                 WHERE gibbonYearGroupID = :yearGroupID
                 AND gibbonStudentEnrolment.gibbonSchoolYearID = :schoolYearID
                 ORDER BY nameShort";
@@ -273,7 +273,7 @@ class proof {
 
         $found = false;
         while ($row = $rs->fetch()) {
-            if ($row['gibbonRollGroupID'] == $this->rollGroupID) {
+            if ($row['gibbonFormGroupID'] == $this->rollGroupID) {
                 $found = true;
             }
         }
@@ -296,8 +296,8 @@ class proof {
                         <?php
                         $rs->execute();
                         while ($row = $rs->fetch()) {
-                            $selected = ($this->rollGroupID == $row['gibbonRollGroupID']) ? "selected" : "";
-                            echo "<option value='".$row['gibbonRollGroupID']."' $selected>";
+                            $selected = ($this->rollGroupID == $row['gibbonFormGroupID']) ? "selected" : "";
+                            echo "<option value='".$row['gibbonFormGroupID']."' $selected>";
                                 echo $row['nameShort'];
                             echo "</option>";
                         }
@@ -558,10 +558,10 @@ class proof {
             'rollGroupID' => $this->rollGroupID
         );
         $sql = "SELECT CONCAT(gibbonPerson.firstName, ' ', gibbonPerson.surname) AS teacherName
-            FROM gibbonRollGroup
+            FROM gibbonFormGroup
             INNER JOIN gibbonPerson
-            ON gibbonPerson.gibbonPersonID = gibbonRollGroup.gibbonPersonIDTutor
-            WHERE gibbonRollGroup.gibbonRollGroupID = :rollGroupID";
+            ON gibbonPerson.gibbonPersonID = gibbonFormGroup.gibbonPersonIDTutor
+            WHERE gibbonFormGroup.gibbonFormGroupID = :rollGroupID";
         $rs = $this->dbh->prepare($sql);
         $rs->execute($data);
         $teacherName = "";

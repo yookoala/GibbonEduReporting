@@ -273,3 +273,7 @@ $sql[$count][1]="";
 $count++;
 $sql[$count][0]="2.23" ; // version number
 $sql[$count][1]=""; 
+
+$count++;
+$sql[$count][0]="2.24" ; // version number
+$sql[$count][1]=""; 

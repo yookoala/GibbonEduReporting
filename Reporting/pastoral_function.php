@@ -117,7 +117,7 @@ class pastoral {
                 FROM gibbonStudentEnrolment
                 INNER JOIN gibbonPerson
                 ON gibbonStudentEnrolment.gibbonPersonID = gibbonPerson.gibbonPersonID
-                WHERE gibbonRollGroupID = :rollGroupID ";
+                WHERE gibbonFormGroupID = :rollGroupID ";
                 if ($this->showLeft == 0) {
                     $sql .= "AND status = 'Full' ";
                 }
@@ -359,10 +359,10 @@ class pastoral {
                 'schoolYearID' => $this->schoolYearID,
                 'yearGroupID' => $this->yearGroupID
             );
-            $sql = "SELECT DISTINCT gibbonStudentEnrolment.gibbonRollGroupID, gibbonRollGroup.nameShort
-                FROM gibbonRollGroup
+            $sql = "SELECT DISTINCT gibbonStudentEnrolment.gibbonFormGroupID, gibbonFormGroup.nameShort
+                FROM gibbonFormGroup
                 INNER JOIN gibbonStudentEnrolment
-                ON gibbonRollGroup.gibbonRollGroupID = gibbonStudentEnrolment.gibbonRollGroupID
+                ON gibbonFormGroup.gibbonFormGroupID = gibbonStudentEnrolment.gibbonFormGroupID
                 WHERE gibbonYearGroupID = :yearGroupID
                 AND gibbonStudentEnrolment.gibbonSchoolYearID = :schoolYearID
                 ORDER BY nameShort";
@@ -389,8 +389,8 @@ class pastoral {
                         <option></option>
                         <?php
                         while ($row = $rs->fetch()) {
-                            $selected = ($this->rollGroupID == $row['gibbonRollGroupID']) ? "selected" : "";
-                            echo "<option value='".$row['gibbonRollGroupID']."' $selected>";
+                            $selected = ($this->rollGroupID == $row['gibbonFormGroupID']) ? "selected" : "";
+                            echo "<option value='".$row['gibbonFormGroupID']."' $selected>";
                                 echo $row['nameShort'];
                             echo "</option>";
                         }
